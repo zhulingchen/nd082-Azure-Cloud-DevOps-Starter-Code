@@ -3,3 +3,6 @@
 *.tfstate
 *.tfstate.backup
 *.tfstate.lock.info
+
+# do not track the shell script that sets up service principal information
+set_azure_env.sh
