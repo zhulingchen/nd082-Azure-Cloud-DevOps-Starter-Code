@@ -22,10 +22,9 @@ For this project, you will write a Packer template and a Terraform template to d
 
 ### Instructions
 1. Deploy an Azure policy that ensures all indexed resources are tagged
-- Create the Azure policy definition by running the shell script [create_az_policy_definition.sh](create_az_policy_definition.sh)
-- Create the Azure policy assignment by running the shell script [create_az_policy_assignment.sh](create_az_policy_assignment.sh)
-- Verify policy effectiveness by creating index resources
+    - Create the Azure policy definition by running the shell script [create_az_policy_definition.sh](create_az_policy_definition.sh)
+    - Create the Azure policy assignment by running the shell script [create_az_policy_assignment.sh](create_az_policy_assignment.sh)
+    - Verify policy effectiveness by creating index resources
 
 ### Output
 **Your words here**
-
