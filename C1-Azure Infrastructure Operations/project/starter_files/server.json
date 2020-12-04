@@ -2,36 +2,50 @@
 	"variables": {
 		"client_id": "{{env `ARM_CLIENT_ID`}}",
 		"client_secret": "{{env `ARM_CLIENT_SECRET`}}",
-		"subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}"
+		"tenant_id": "{{env `ARM_TENANT_ID`}}",
+		"subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}",
+
+		"ssh_username": "ubuntu",
+		"ssh_password": null
 	},
 	"builders": [
 		{
 			"type": "azure-arm",
+
 			"client_id": "{{user `client_id`}}",
 			"client_secret": "{{user `client_secret`}}",
+			"tenant_id": "{{user `tenant_id`}}",
 			"subscription_id": "{{user `subscription_id`}}",
+
+			"managed_image_resource_group_name": "packer-rg",
+			"managed_image_name": "my-packer-image",
+
 			"os_type": "Linux",
 			"image_publisher": "Canonical",
 			"image_offer": "UbuntuServer",
 			"image_sku": "18.04-LTS",
-			"managed_image_resource_group_name": "packer-rg",
-			"managed_image_name": "my-packer-image",
+
 			"azure_tags": {
 				"Name": "hello-world-webserver"
 			},
+
 			"location": "East US",
-			"vm_size": "Standard_B1s"
+			"vm_size": "Standard_B1s",
+
+			"ssh_pty" : "true",
+        	"ssh_username": "{{user `ssh_username`}}",
+        	"ssh_password": "{{user `ssh_password`}}"
 		}
 	],
 	"provisioners": [
 		{
+			"execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
 			"inline": [
 				"echo 'Hello, World!' > index.html",
 				"nohup busybox httpd -f -p 80 &"
 			],
 			"inline_shebang": "/bin/sh -x",
-			"type": "shell",
-			"execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+			"type": "shell"
 		}
 	]
 }
