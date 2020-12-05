@@ -32,5 +32,10 @@ For this project, you will write a Packer template and a Terraform template to d
     - Complete the Packer template file [server.json](server.json)
     - Create the image by: `packer build -var ssh_password="TestP@ssw0rd" server.json`
 
+3. Deploy Azure resources with Terraform
+    - Complete terraform configuration files
+    - Plan the Terraform deployment: `terraform plan -var-file terraform.tfvars -out tfplan.out` ([terraform.tfvars](terraform.tfvars) defines all Terraform user variables and `-var-file terraform.tfvar` can actually be omitted if variables are defined in a file with exact name of [terraform.tfvars](terraform.tfvars))
+    - Apply the Terraform deployment: `terraform apply "tfplan.out"`
+
 ### Output
-**Your words here**
+![Terraform output](screenshots/terraform_output.png)
