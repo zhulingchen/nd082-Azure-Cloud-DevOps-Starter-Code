@@ -29,8 +29,10 @@ variable "instance_count" {
 
 variable "packer_resource_group" {
   description = "Resource group of the Packer image"
+  default = "packer-rg"
 }
 
 variable "packer_image_name" {
   description = "Image name of the Packer image"
+  default = "my-packer-image"
 }
