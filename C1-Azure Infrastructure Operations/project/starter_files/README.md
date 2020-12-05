@@ -37,5 +37,8 @@ For this project, you will write a Packer template and a Terraform template to d
     - Plan the Terraform deployment: `terraform plan -var-file terraform.tfvars -out tfplan.out` ([terraform.tfvars](terraform.tfvars) defines all Terraform user variables and `-var-file terraform.tfvar` can actually be omitted if variables are defined in a file with exact name of [terraform.tfvars](terraform.tfvars))
     - Apply the Terraform deployment: `terraform apply "tfplan.out"`
 
+4. Destroy all Azure resources
+    - Run: `terraform destroy`
+
 ### Output
 ![Terraform output](screenshots/terraform_output.png)
