@@ -87,10 +87,12 @@ resource "azurerm_network_security_group" "nsg" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  name                = "${var.prefix}-public-ip"
+  count               = var.instance_count
+  name                = "${var.prefix}-public-ip-${count.index}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
+  sku                 = "Standard"
   tags                = var.tags
 }
 
@@ -103,7 +105,7 @@ resource "azurerm_network_interface" "ni" {
   ip_configuration {
     name                          = "Configuration"
     subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Static"
+    private_ip_address_allocation = "Dynamic"
   }
 
   tags                =  var.tags
