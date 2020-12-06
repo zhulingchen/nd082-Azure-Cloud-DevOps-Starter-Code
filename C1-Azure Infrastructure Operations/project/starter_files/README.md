@@ -43,7 +43,9 @@ For this project, you will write a Packer template and a Terraform template to d
 
 ### Output
 1. Terraform output
+
 ![Terraform output](screenshots/terraform_output.png)
 
 2. Website in the browser
+
 ![Website in the browser](screenshots/website_browser.png)
