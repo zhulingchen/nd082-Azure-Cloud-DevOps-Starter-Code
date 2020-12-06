@@ -46,6 +46,6 @@ For this project, you will write a Packer template and a Terraform template to d
 
 ![Terraform output](screenshots/terraform_output.png)
 
-2. Website in the browser
+2. Website in the browser [http://udacity-azure-webserver-resource-group.eastus.cloudapp.azure.com/](http://udacity-azure-webserver-resource-group.eastus.cloudapp.azure.com/)
 
 ![Website in the browser](screenshots/website_browser.png)
