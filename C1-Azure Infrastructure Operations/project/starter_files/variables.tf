@@ -16,23 +16,26 @@ variable "tags" {
   }
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group in which the resources will be created"
-  default     = "udacity-azure-webserver-resource-group"
-}
-
 variable "instance_count" {
   description = "Number machines to be created"
   type = number
   default = 2
 }
 
+variable "application_port" {
+  description = "The port that you want to expose to the external load balancer"
+  default     = 80
+}
+
+variable "admin_username" {
+  description = "Default username for admin"
+  default = "azureuser"
+}
+
 variable "packer_resource_group" {
   description = "Resource group of the Packer image"
-  default = "packer-rg"
 }
 
 variable "packer_image_name" {
   description = "Image name of the Packer image"
-  default = "my-packer-image"
 }

@@ -3,172 +3,72 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
+resource "azurerm_resource_group" "vmss" {
+  name     = "${var.prefix}-resource-group"
   location = var.location
   tags     = var.tags
 }
 
-resource "azurerm_virtual_network" "vn" {
-  name                = "${var.prefix}-virtual-network"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+resource "azurerm_virtual_network" "vmss" {
+  name                = "${var.prefix}-vmss-vnet"
   address_space       = ["10.0.0.0/16"]
+  location            = var.location
+  resource_group_name = azurerm_resource_group.vmss.name
   tags                = var.tags
 }
 
-resource "azurerm_subnet" "subnet"{
-  name                = "${var.prefix}-subnet"
-  resource_group_name = azurerm_resource_group.rg.name
-  virtual_network_name= azurerm_virtual_network.vn.name
-  address_prefixes     = ["10.0.1.0/24"]
+resource "azurerm_subnet" "vmss" {
+  name                 = "${var.prefix}-vmss-subnet"
+  resource_group_name  = azurerm_resource_group.vmss.name
+  virtual_network_name = azurerm_virtual_network.vmss.name
+  address_prefix       = "10.0.2.0/24"
 }
 
-resource "azurerm_network_security_group" "nsg" {
-  name                = "${var.prefix}-network-security-group"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  security_rule {
-    name                       = "allow-ssh"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-#   security_rule {
-#     name                       = "allow-http"
-#     priority                   = 1002
-#     direction                  = "Inbound"
-#     access                     = "Allow"
-#     protocol                   = "TCP"
-#     source_port_range          = "*"
-#     destination_port_range     = "80"
-#     source_address_prefix      = "*"
-#     destination_address_prefix = "*"
-#   }
-  security_rule {
-    name                       = "allow-vnet-inbound"
-    priority                   = 2001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "VirtualNetwork"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "allow-vnet-outbound"
-    priority                   = 2002
-    direction                  = "Outbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "VirtualNetwork"
-    destination_address_prefix = "*"
-  }
-  security_rule {
-    name                       = "block-internet-inbound"
-    priority                   = 4096
-    direction                  = "Inbound"
-    access                     = "Deny"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "Internet"
-    destination_address_prefix = "*"
-  }
-  tags                         =  var.tags
-}
-
-resource "azurerm_public_ip" "pip" {
-  count               = var.instance_count
-  name                = "${var.prefix}-public-ip-${count.index}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_public_ip" "vmss" {
+  name                = "${var.prefix}-vmss-public-ip"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.vmss.name
   allocation_method   = "Static"
-  sku                 = "Standard"
+  domain_name_label   = azurerm_resource_group.vmss.name
   tags                = var.tags
 }
 
-resource "azurerm_network_interface" "ni" {
-  count               = var.instance_count
-  name                = "${var.prefix}-ni-${count.index}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  ip_configuration {
-    name                          = "Configuration"
-    subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
-  }
-
-  tags                =  var.tags
-}
-
-resource "azurerm_network_interface_security_group_association" "nisga" {
-  count                     = var.instance_count
-  network_interface_id      = azurerm_network_interface.ni[count.index].id
-  network_security_group_id = azurerm_network_security_group.nsg.id
-}
-
-resource "azurerm_public_ip" "lbpip" {
-  name                = "${var.prefix}-load-balancer-public-ip"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-  tags                = var.tags
-}
-
-resource "azurerm_lb" "lb" {
-  name                = "${var.prefix}-load-balancer"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+resource "azurerm_lb" "vmss" {
+  name                = "${var.prefix}-vmss-lb"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.vmss.name
 
   frontend_ip_configuration {
     name                 = "PublicIPAddress"
-    public_ip_address_id = azurerm_public_ip.lbpip.id
+    public_ip_address_id = azurerm_public_ip.vmss.id
   }
 
-  tags                = var.tags
+  tags = var.tags
 }
 
-resource "azurerm_lb_backend_address_pool" "lbbap" {
-  name                = "BackendAddressPool"
-  resource_group_name = azurerm_resource_group.rg.name
-  loadbalancer_id     = azurerm_lb.lb.id
+resource "azurerm_lb_backend_address_pool" "bpepool" {
+  resource_group_name = azurerm_resource_group.vmss.name
+  loadbalancer_id     = azurerm_lb.vmss.id
+  name                = "BackEndAddressPool"
 }
 
-resource "azurerm_lb_nat_rule" "natRule" {
-  name                           = "HTTPSAccess"
-  resource_group_name            = azurerm_resource_group.rg.name
-  loadbalancer_id                = azurerm_lb.lb.id
+resource "azurerm_lb_probe" "vmss" {
+  resource_group_name = azurerm_resource_group.vmss.name
+  loadbalancer_id     = azurerm_lb.vmss.id
+  name                = "ssh-running-probe"
+  port                = var.application_port
+}
+
+resource "azurerm_lb_rule" "lbnatrule" {
+  resource_group_name            = azurerm_resource_group.vmss.name
+  loadbalancer_id                = azurerm_lb.vmss.id
+  name                           = "http"
   protocol                       = "Tcp"
-  frontend_port                  = 338
-  backend_port                   = 338
-  frontend_ip_configuration_name = azurerm_lb.lb.frontend_ip_configuration[0].name
-}
-
-resource "azurerm_network_interface_backend_address_pool_association" "nibapa" {
-  count                   = var.instance_count
-  backend_address_pool_id = azurerm_lb_backend_address_pool.lbbap.id
-  ip_configuration_name   = "Configuration"
-  network_interface_id    = element(azurerm_network_interface.ni.*.id, count.index)
-}
-
-resource "azurerm_availability_set" "aset" {
-  name                = "${var.prefix}-availability_set"
-  location            =  azurerm_resource_group.rg.location
-  resource_group_name =  azurerm_resource_group.rg.name
-  managed             =  true
-  platform_fault_domain_count  = 2
-  platform_update_domain_count = 2
-  tags                =  var.tags
+  frontend_port                  = var.application_port
+  backend_port                   = var.application_port
+  backend_address_pool_id        = azurerm_lb_backend_address_pool.bpepool.id
+  frontend_ip_configuration_name = "PublicIPAddress"
+  probe_id                       = azurerm_lb_probe.vmss.id
 }
 
 data "azurerm_resource_group" "packer_rg" {
@@ -180,49 +80,121 @@ data "azurerm_image" "packer_image" {
   resource_group_name = data.azurerm_resource_group.packer_rg.name
 }
 
-resource "azurerm_linux_virtual_machine" "vm" {
-  count               = var.instance_count
-  name                = "${var.prefix}-vm-${count.index}"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  size                = "Standard_B1s"
-  source_image_id     = data.azurerm_image.packer_image.id
-  admin_username      = "ubuntu"
-  disable_password_authentication = false
-  admin_password      = "P@ssw0rd1234!"
-  availability_set_id   = azurerm_availability_set.aset.id
-  network_interface_ids = [
-    azurerm_network_interface.ni[count.index].id
-  ]
+resource "azurerm_virtual_machine_scale_set" "vmss" {
+  name                = "${var.prefix}-vm-scale-set"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.vmss.name
+  upgrade_policy_mode = "Manual"
 
-#   admin_ssh_key {
-#     username   = "ubuntu"
-#     public_key = file("~/.ssh/my_azure.pub")
-#   }
+  sku {
+    name     = "Standard_B1s"
+    tier     = "Standard"
+    capacity = var.instance_count
+  }
 
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+  storage_profile_image_reference {
+    id = data.azurerm_image.packer_image.id
+  }
+
+  storage_profile_os_disk {
+    name              = ""
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  storage_profile_data_disk {
+    lun            = 0
+    caching        = "ReadWrite"
+    create_option  = "Empty"
+    disk_size_gb   = 10
+  }
+
+  os_profile {
+    computer_name_prefix = "${var.prefix}-vm"
+    admin_username       = var.admin_username
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = true
+    ssh_keys {
+      path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+      key_data = file("~/.ssh/my_azure.pub")
+    }
+  }
+
+  network_profile {
+    name    = "TerraformNetworkProfile"
+    primary = true
+
+    ip_configuration {
+      name                                   = "IPConfiguration"
+      subnet_id                              = azurerm_subnet.vmss.id
+      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.bpepool.id]
+      primary                                = true
+    }
+  }
+  
+  tags = var.tags
+}
+
+resource "azurerm_public_ip" "jumpbox" {
+  name                = "${var.prefix}-jumpbox-public-ip"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.vmss.name
+  allocation_method   = "Static"
+  domain_name_label   = "${azurerm_resource_group.vmss.name}-ssh"
+  tags                = var.tags
+}
+
+resource "azurerm_network_interface" "jumpbox" {
+  name                = "${var.prefix}-jumpbox-nic"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.vmss.name
+
+  ip_configuration {
+    name                          = "IPConfiguration"
+    subnet_id                     = azurerm_subnet.vmss.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.jumpbox.id
   }
 
   tags = var.tags
 }
 
-resource "azurerm_managed_disk" "data" {
-  count                           = var.instance_count
-  name                            = "${var.prefix}-md-${count.index}"
-  resource_group_name             = azurerm_resource_group.rg.name
-  location                        = azurerm_resource_group.rg.location
-  create_option                   = "Empty"
-  disk_size_gb                    = 10
-  storage_account_type            = "Standard_LRS"
-  tags = var.tags
-}
+resource "azurerm_virtual_machine" "jumpbox" {
+  name                  = "${var.prefix}-jumpbox"
+  location              = var.location
+  resource_group_name   = azurerm_resource_group.vmss.name
+  network_interface_ids = [azurerm_network_interface.jumpbox.id]
+  vm_size               = "Standard_B1s"
 
-resource "azurerm_virtual_machine_data_disk_attachment" "data" {
-  count              = var.instance_count
-  virtual_machine_id = azurerm_linux_virtual_machine.vm[count.index].id
-  managed_disk_id    = azurerm_managed_disk.data[count.index].id
-  lun                = 10
-  caching            = "ReadWrite"
+  storage_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04-LTS"
+    version   = "latest"
+  }
+
+  storage_os_disk {
+    name              = "jumpbox-osdisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  os_profile {
+    computer_name  = "jumpbox"
+    admin_username = var.admin_username
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = true
+    ssh_keys {
+      path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+      key_data = file("~/.ssh/my_azure.pub")
+    }
+  }
+
+  tags = var.tags
 }
