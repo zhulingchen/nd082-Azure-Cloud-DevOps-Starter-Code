@@ -30,7 +30,7 @@ For this project, you will write a Packer template and a Terraform template to d
     - Create a Service Principal for Terraform named `TerraformSP` by: `az ad sp create-for-rbac --role="Contributor" --name="TerraformSP"`, and such command outputs 5 values: `appId`, `displayName`, `name`, `password`, and `tenant`.
     - Export environment variables `ARM_CLIENT_ID` and `ARM_CLIENT_SECRET` that correspond to the above `appId` and `password`, respectively, as well as `ARM_SUBSCRIPTION_ID` which is the Azure Subscription ID.
     - Complete the Packer template file [server.json](server.json)
-    - Create the image by: `packer build -var ssh_password="TestP@ssw0rd" server.json`
+    - Create the image by: `packer build server.json` (if any user variables remain to be assigned, place `-var 'key=value'` between `packer build` and `server.json`)
 
 3. Deploy Azure resources with Terraform
     - Complete terraform configuration files
@@ -38,7 +38,8 @@ For this project, you will write a Packer template and a Terraform template to d
     - Apply the Terraform deployment: `terraform apply "tfplan.out"`
 
 4. Destroy all Azure resources
-    - Run: `terraform destroy`
+    - Destroy resources built by Terraform: `terraform destroy`
+    - Destroy image built by Packer: `az image delete -g packer-rg -n my-packer-image`
 
 ### Output
 ![Terraform output](screenshots/terraform_output.png)
