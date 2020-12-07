@@ -28,7 +28,7 @@ For this project, you will write a Packer template and a Terraform template to d
 2. Create a Packer image deployable by Terraform
     - Create an image resource group named `packer-rg` by: `az group create --location eastus --name packer-rg`
     - Create a Service Principal for Terraform named `TerraformSP` by: `az ad sp create-for-rbac --role="Contributor" --name="TerraformSP"`, and such command outputs 5 values: `appId`, `displayName`, `name`, `password`, and `tenant`.
-    - Export environment variables `ARM_CLIENT_ID` and `ARM_CLIENT_SECRET` that correspond to the above `appId` and `password`, respectively, as well as `ARM_SUBSCRIPTION_ID` which is the Azure Subscription ID.
+    - Export environment variables `ARM_CLIENT_ID` and `ARM_CLIENT_SECRET` that correspond to the above `appId` and `password`, respectively, as well as `ARM_SUBSCRIPTION_ID` which is the Azure Subscription ID (run `source set_azure_env.sh` or `. set_azure_env.sh`).
     - Complete the Packer template file [server.json](server.json)
     - Create the image by: `packer build server.json` (if any user variables remain to be assigned, place `-var 'key=value'` between `packer build` and `server.json`)
 
