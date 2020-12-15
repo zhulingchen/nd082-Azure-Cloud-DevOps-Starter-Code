@@ -35,14 +35,17 @@ jobs:
         pwd
         ls -la
 
-    - name: Go to the project directory
-      run: cd "C2-Agile Development with Azure/project/starter_files/flask-sklearn"
-
     - name: Install dependencies
-      run: make install
+      run: |
+        cd "C2-Agile Development with Azure/project/starter_files/flask-sklearn"
+        make install
       
     - name: Lint with pylint
-      run: make lint
+      run: |
+        cd "C2-Agile Development with Azure/project/starter_files/flask-sklearn"
+        make lint
       
     - name: Test with pytest
-      run: make test
+      run: |
+        cd "C2-Agile Development with Azure/project/starter_files/flask-sklearn"
+        make test
