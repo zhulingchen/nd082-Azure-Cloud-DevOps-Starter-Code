@@ -1,3 +1,4 @@
+![Continuous integration](https://github.com/zhulingchen/nd082-Azure-Cloud-DevOps-Starter-Code/workflows/Continuous%20integration/badge.svg)
 # Overview
 
 <TODO: complete this with an overview of your project>
