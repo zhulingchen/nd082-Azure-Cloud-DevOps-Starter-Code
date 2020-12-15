@@ -30,6 +30,14 @@ jobs:
       with:
         python-version: 3.5
 
+    - name: Verify system environment
+      run: |
+        pwd
+        ls -la
+
+    - name: Go to the project directory
+      run: cd "C2-Agile Development with Azure/project/starter_files/flask-sklearn"
+
     - name: Install dependencies
       run: make install
       
