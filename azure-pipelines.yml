@@ -9,7 +9,7 @@ trigger:
       - master
   paths:
     include:
-      - 'C2-Agile Development with Azure'/project/*
+      - 'C2-Agile Development with Azure/project/*'
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
