@@ -1,6 +1,6 @@
 ![GitHub Actions Continuous integration](https://github.com/zhulingchen/nd082-Azure-Cloud-DevOps-Starter-Code/workflows/Continuous%20integration/badge.svg)
 
-![Azure Pipelines Continuous Deployment](https://dev.azure.com/lingchenzhu/flask-ml-webapp/_apis/build/status/zhulingchen.nd082-Azure-Cloud-DevOps-Starter-Code?branchName=master)
+[![Azure Pipelines Build Status](https://dev.azure.com/lingchenzhu/flask-ml-webapp/_apis/build/status/zhulingchen.nd082-Azure-Cloud-DevOps-Starter-Code?branchName=master)](https://dev.azure.com/lingchenzhu/flask-ml-webapp/_build/latest?definitionId=1&branchName=master)
 
 # Overview
 
