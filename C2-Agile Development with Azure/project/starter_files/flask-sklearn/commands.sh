@@ -1,0 +1,1 @@
+az webapp up --sku F1 --name flask-ml-lingchenzhu --location "East US"
