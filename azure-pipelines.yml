@@ -30,6 +30,9 @@ variables:
   # Python version: 3.7
   pythonVersion: '3.7'
 
+  # Workspace directory
+  workspaceDir: 'C2-Agile Development with Azure/project/starter_files/flask-sklearn'
+
 stages:
 - stage: Build
   displayName: Build stage
@@ -42,6 +45,12 @@ stages:
       inputs:
         versionSpec: '$(pythonVersion)'
       displayName: 'Use Python $(pythonVersion)'
+
+    - script: |
+        pwd
+        ls -la
+      workingDirectory: $(projectRoot)/$(workspaceDir)
+      displayName: "Verify build environment"
     
     - script: |
         python -m venv antenv
@@ -49,13 +58,13 @@ stages:
         python -m pip install --upgrade pip
         pip install setup
         pip install -r requirements.txt
-      workingDirectory: $(projectRoot)
+      workingDirectory: $(projectRoot)/$(workspaceDir)
       displayName: "Install requirements"
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
-        rootFolderOrFile: '$(projectRoot)'
+        rootFolderOrFile: '$(projectRoot)/$(workspaceDir)'
         includeRootFolder: false
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
