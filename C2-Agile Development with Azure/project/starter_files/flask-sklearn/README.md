@@ -39,7 +39,7 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
     * Go to the project directory: `cd "nd082-Azure-Cloud-DevOps-Starter-Code/C2-Agile Development with Azure/project/starter_files/flask-sklearn"`;
 
-    * Run the Azure Webapp Service up bash script `./commands.sh` or directly run `az webapp up --sku F1 --name flask-ml-lingchenzhu --location "East US"`;
+    * Run the Azure Webapp Service up bash script `./commands.sh` or directly run `az webapp up --sku F1 --name flask-ml-lingchenzhu --location "East US"` (so the webapp name is `flask-ml-lingchenzhu`);
 
     * Wait until the webapp infrastructure is created and verify the frontend:
 
@@ -47,7 +47,13 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
         ![Azure Webapp frontend](../screenshots/azure_webapp.png)
 
-    * Update [make_predict_azure_app.sh](make_predict_azure_app.sh) to include the webapp name `flask-ml-lingchenzhu` in the POST target line
+    * Update [make_predict_azure_app.sh](make_predict_azure_app.sh) to have the webapp name `flask-ml-lingchenzhu` in the POST target line
+
+* Create virtual environment
+
+    * Run: `make setup` or `python3 -m venv ~/.udacity-devops` so that the virtual environment directory is located at `~/.udacity-devops`
+
+    * Activate the created virtual environment by: `source ~/.udacity-devops/bin/activate` or `. ~/.udacity-devops/bin/activate`
 
 * Passing tests that are displayed after running the `make all` command from the `Makefile`
 
@@ -57,13 +63,15 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
 * Output of a test run
 
-    ![Azure Cloud Shell predict](../screenshots/azure_cloud_make_predict_azure_app.png)
+    * Run: `./make_predict_azure_app.sh`
 
-* Load test an application using Locust (swarm the target website at localhost)
+        ![Azure Cloud Shell predict](../screenshots/azure_cloud_make_predict_azure_app.png)
 
-    * Create a venv like: `python3 -m venv .locust`
+* Load test an application using Locust (swarm the target website from localhost)
 
-    * Activate the created venv by: `source .locust/bin/activate` or `. .locust/bin/activate`
+    * Create a virtual environment like: `python3 -m venv .locust`
+
+    * Activate the created virtual environment by: `source .locust/bin/activate` or `. .locust/bin/activate`
 
     * Run `pip install wheel` to let the command `bdist_wheel` be available
 
@@ -105,7 +113,7 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
     ![A successful Azure Pipelines 2](../screenshots/successful_azure_pipelines_run_2.png)
 
-* Successful prediction from deployed flask app in Azure Cloud Shell.  [Use this file as a template for the deployed prediction](https://github.com/udacity/nd082-Azure-Cloud-DevOps-Starter-Code/blob/master/C2-AgileDevelopmentwithAzure/project/starter_files/flask-sklearn/make_predict_azure_app.sh).
+* Successful prediction from deployed flask app in Azure Cloud Shell [Use this file as a template for the deployed prediction](https://github.com/udacity/nd082-Azure-Cloud-DevOps-Starter-Code/blob/master/C2-AgileDevelopmentwithAzure/project/starter_files/flask-sklearn/make_predict_azure_app.sh).
 The output should look similar to this:
 
     * Run the prediction script `./make_predict_azure_app.sh` after the webapp is online.
