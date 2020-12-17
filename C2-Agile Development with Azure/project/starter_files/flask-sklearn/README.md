@@ -20,28 +20,68 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
 ![System architecture](../screenshots/system_architecture.png)
 
-<TODO:  Instructions for running the Python project.  How could a user with no context run this project without asking you for any help.  Include screenshots with explicit steps to create that work. Be sure to at least include the following screenshots:
-
-* Project running on Azure App Service
-
 * Project cloned into Azure Cloud Shell
+
+    * Open Azure Cloud Shell, create a SSH key pair by: `ssh-keygen -t rsa`;
+
+    * Copy and paste the public SSH key to github.com (e.g., the file `~/.ssh/id_rsa.pub`);
+
+    * Run `git clone git@github.com:zhulingchen/nd082-Azure-Cloud-DevOps-Starter-Code.git` to clone the repository into Azure Cloud Shell:
+
+        ![Azure Cloud Shell git clone](../screenshots/azure_cloud_git_clone.png)
+
+* Project running on Azure Webapp Service
+
+    * Go to the project directory: `cd "nd082-Azure-Cloud-DevOps-Starter-Code/C2-Agile Development with Azure/project/starter_files/flask-sklearn"`;
+
+    * Run the Azure Webapp Service up bash script `./commands.sh` or directly run `az webapp up --sku F1 --name flask-ml-lingchenzhu --location "East US"`;
+
+    * Wait until the webapp infrastructure is created and verify the frontend:
+
+        ![Azure Webapp infrastructure up](../screenshots/azure_cloud_az_webapp_up.png)
+
+        ![Azure Webapp frontend](../screenshots/azure_webapp.png)
+
+    * Update [make_predict_azure_app.sh](make_predict_azure_app.sh) to include the webapp name `flask-ml-lingchenzhu` in the POST target line
 
 * Passing tests that are displayed after running the `make all` command from the `Makefile`
 
+    ![Azure Cloud Shell make all 1](../screenshots/azure_cloud_make_all_1.png)
+
+    ![Azure Cloud Shell make all 2](../screenshots/azure_cloud_make_all_2.png)
+
 * Output of a test run
 
-* Successful deploy of the project in Azure Pipelines.  [Note the official documentation should be referred to and double checked as you setup CI/CD](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/python-webapp?view=azure-devops).
+    ![Azure Cloud Shell predict](../screenshots/azure_cloud_make_predict_azure_app.png)
+
+* Successful deploy of the project in Azure Pipelines.  [Note the official documentation should be referred to and double checked as you setup CI/CD](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/python-webapp?view=azure-devops)
+
+    * Create a new service connection to Azure Webapp Service
+
+        ![New service connection 1](../screenshots/new_service_connection_1.png)
+
+        ![New service connection 2](../screenshots/new_service_connection_2.png)
+
+        ![New service connection 3](../screenshots/new_service_connection_3.png)
+
+    * Checkout the Azure Pipelines configuration yaml file: [azure-pipelines.yml](../../../../azure-pipelines.yml)
 
 * Running Azure App Service from Azure Pipelines automatic deployment
+
+    ![Azure Pipelines](../screenshots/azure_pipelines.png)
+
+    ![Azure Pipelines Runs](../screenshots/azure_pipelines_runs.png)
+
+    ![One successful Azure Pipelines 1](../screenshots/successful_azure_pipelines_run_1.png)
+
+    ![One successful Azure Pipelines 2](../screenshots/successful_azure_pipelines_run_2.png)
 
 * Successful prediction from deployed flask app in Azure Cloud Shell.  [Use this file as a template for the deployed prediction](https://github.com/udacity/nd082-Azure-Cloud-DevOps-Starter-Code/blob/master/C2-AgileDevelopmentwithAzure/project/starter_files/flask-sklearn/make_predict_azure_app.sh).
 The output should look similar to this:
 
-```bash
-udacity@Azure:~$ ./make_predict_azure_app.sh
-Port: 443
-{"prediction":[20.35373177134412]}
-```
+    * Run the prediction script `./make_predict_azure_app.sh` after the webapp is online.
+
+        ![Azure Cloud Shell predict](../screenshots/azure_cloud_make_predict_azure_app.png)
 
 * Output of streamed log files from deployed application
 
