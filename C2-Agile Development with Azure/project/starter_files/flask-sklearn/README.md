@@ -106,9 +106,9 @@ The output should look similar to this:
 
 ## Enhancements
 
-    * Containerize the webapp in a docker image and publish the docker image to a repository such as [Docker Hub](https://hub.docker.com/)
+* Containerize the webapp in a docker image and publish the docker image to a repository such as [Docker Hub](https://hub.docker.com/)
 
-    * Deploy a Kubernetes version of the project on Azure Kubernetes Service (AKS) for high scalability and better usability
+* Deploy a Kubernetes version of the project on Azure Kubernetes Service (AKS) for high scalability and better usability
 
 ## Demo 
 
