@@ -59,6 +59,10 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
     ![Azure Cloud Shell predict](../screenshots/azure_cloud_make_predict_azure_app.png)
 
+* Successful deploy of the project in GitHub Actions
+
+    ![GitHub Actions runs](../screenshots/github_actions_runs.png)
+
 * Successful deploy of the project in Azure Pipelines.  [Note the official documentation should be referred to and double checked as you setup CI/CD](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/python-webapp?view=azure-devops)
 
     * Create a new service connection to Azure Webapp Service
