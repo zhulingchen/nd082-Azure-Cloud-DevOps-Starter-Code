@@ -104,10 +104,11 @@ The output should look similar to this:
 
         * Downloaded logs to webapp_logs.zip
 
-
 ## Enhancements
 
-<TODO: A short description of how to improve the project in the future>
+    * Containerize the webapp in a docker image and publish the docker image to a repository such as [Docker Hub](https://hub.docker.com/)
+
+    * Deploy a Kubernetes version of the project on Azure Kubernetes Service (AKS) for high scalability and better usability
 
 ## Demo 
 
