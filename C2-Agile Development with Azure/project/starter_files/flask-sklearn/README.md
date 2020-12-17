@@ -9,10 +9,15 @@ This is the second project of Udacity DevOps Engineer for Microsoft Azure Nanode
 This project builds a CI pipeline using GitHub Actions and a CD pipeline using Azure Pipelines for a Python-based machine learning application.
 
 ## Project Plan
-<TODO: Project Plan
 
 * A link to a Trello board for the project
-* A link to a spreadsheet that includes the original and final project plan>
+
+    * Checkout [the public Trello board](https://trello.com/b/ohN9CV9O/flash-ml-services)
+
+
+* A link to a spreadsheet that includes the original and final project plan
+
+    * Checkout [project-management-example.xlsx](../project-management-example.xlsx)
 
 ## Instructions
 
@@ -90,7 +95,7 @@ The output should look similar to this:
         ![Azure Cloud Shell az webapp list](../screenshots/azure_cloud_az_webapp_list.png)
 
     * Start live log tracing for a webapp by:
-        
+
         `az webapp log tail --ids /subscriptions/6e9efff0-ea1d-4783-aac8-6fe28c5ca752/resourceGroups/lingchenzhu_rg_Linux_eastus/providers/Microsoft.Web/sites/flask-ml-lingchenzhu`
 
     * Get the zipped streamed log output files for a webapp by:
