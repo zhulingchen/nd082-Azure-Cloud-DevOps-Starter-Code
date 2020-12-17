@@ -59,11 +59,29 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
     ![Azure Cloud Shell predict](../screenshots/azure_cloud_make_predict_azure_app.png)
 
+* Load test an application using Locust (swarm the target website at localhost)
+
+    * Create a venv like: `python3 -m venv .locust`
+
+    * Activate the created venv by: `source .locust/bin/activate` or `. .locust/bin/activate`
+
+    * Run `pip install wheel` to let the command `bdist_wheel` be available
+
+    * Run `pip install locust` to install `locust`
+
+    * Run `locust`
+
+    * Open browser and go to [http://localhost:8089/](http://localhost:8089/)
+
+        ![Locust setup](../screenshots/locust_setup.png)
+
+        ![Locust swarming](../screenshots/locust_swarming.png)
+
 * Successful deploy of the project in GitHub Actions
 
     ![GitHub Actions runs](../screenshots/github_actions_runs.png)
 
-* Successful deploy of the project in Azure Pipelines.  [Note the official documentation should be referred to and double checked as you setup CI/CD](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/python-webapp?view=azure-devops)
+* Successful deploy of the project in Azure Pipelines [Note the official documentation should be referred to and double checked as you setup CI/CD](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/python-webapp?view=azure-devops)
 
     * Create a new service connection to Azure Webapp Service
 

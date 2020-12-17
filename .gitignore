@@ -1,2 +1,5 @@
 .DS_Store*
+*.pyc
+.coverage*
 .devops
+.locust
