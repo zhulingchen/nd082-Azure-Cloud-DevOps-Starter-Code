@@ -85,7 +85,20 @@ The output should look similar to this:
 
 * Output of streamed log files from deployed application
 
-> 
+    * Find the id of the deployed webapp by: `az webapp list`:
+
+        ![Azure Cloud Shell az webapp list](../screenshots/azure_cloud_az_webapp_list.png)
+
+    * Start live log tracing for a webapp by:
+        
+        `az webapp log tail --ids /subscriptions/6e9efff0-ea1d-4783-aac8-6fe28c5ca752/resourceGroups/lingchenzhu_rg_Linux_eastus/providers/Microsoft.Web/sites/flask-ml-lingchenzhu`
+
+    * Get the zipped streamed log output files for a webapp by:
+        
+        `az webapp log download --ids /subscriptions/6e9efff0-ea1d-4783-aac8-6fe28c5ca752/resourceGroups/lingchenzhu_rg_Linux_eastus/providers/Microsoft.Web/sites/flask-ml-lingchenzhu`
+
+        * Downloaded logs to webapp_logs.zip
+
 
 ## Enhancements
 
