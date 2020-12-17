@@ -81,6 +81,8 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
     ![GitHub Actions runs](../screenshots/github_actions_runs.png)
 
+    ![A successful GitHub Actions run](../screenshots/successful_github_actions_run.png)
+
 * Successful deploy of the project in Azure Pipelines [Note the official documentation should be referred to and double checked as you setup CI/CD](https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/python-webapp?view=azure-devops)
 
     * Create a new service connection to Azure Webapp Service
@@ -99,9 +101,9 @@ This project builds a CI pipeline using GitHub Actions and a CD pipeline using A
 
     ![Azure Pipelines Runs](../screenshots/azure_pipelines_runs.png)
 
-    ![One successful Azure Pipelines 1](../screenshots/successful_azure_pipelines_run_1.png)
+    ![A successful Azure Pipelines 1](../screenshots/successful_azure_pipelines_run_1.png)
 
-    ![One successful Azure Pipelines 2](../screenshots/successful_azure_pipelines_run_2.png)
+    ![A successful Azure Pipelines 2](../screenshots/successful_azure_pipelines_run_2.png)
 
 * Successful prediction from deployed flask app in Azure Cloud Shell.  [Use this file as a template for the deployed prediction](https://github.com/udacity/nd082-Azure-Cloud-DevOps-Starter-Code/blob/master/C2-AgileDevelopmentwithAzure/project/starter_files/flask-sklearn/make_predict_azure_app.sh).
 The output should look similar to this:
